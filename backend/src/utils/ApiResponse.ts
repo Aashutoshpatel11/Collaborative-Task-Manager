@@ -5,7 +5,7 @@ class ApiResponse<T = any>{
     public success:boolean
 
     constructor(
-        statusCode:number, data:object, message:string, success:boolean
+        statusCode:number, data:object, message:string, success:boolean=true
     ){
         this.statusCode = statusCode
         this.data = data

@@ -14,4 +14,10 @@ app.use( express.json() )
 app.use( express.urlencoded({extended:true, limit:'100kb'}) )
 app.use( cookieParser())
 
+// ROUTE IMPORTS
+import userRoute from './routes/user.route.js'
+
+
+app.use( '/api/v1/user', userRoute )
+
 export {app}
