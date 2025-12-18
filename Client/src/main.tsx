@@ -4,11 +4,32 @@ import './index.css'
 import App from './App.tsx'
 import { Provider } from 'react-redux'
 import store from '../src/store/store.ts'
+import { BrowserRouter, Route, Routes } from "react-router";
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+
+
+
+// Import Pages
+import RegisterPage from './components/pages/RegisterPage.tsx'
+import LoginPage from './components/pages/LoginPage.tsx'
+import HomePage from './components/pages/HomePage.tsx'
+
+const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store={store} >
-      <App />
-    </Provider>
+    <QueryClientProvider client={queryClient} >
+      <Provider store={store} >
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<App/>} >
+              <Route path='/' element={<HomePage />} ></Route>
+            </Route>
+            <Route path='/register' element={<RegisterPage />} />
+            <Route path='/login' element={<LoginPage />} />
+          </Routes>
+        </BrowserRouter>
+      </Provider>
+    </QueryClientProvider>
   </StrictMode>,
 )

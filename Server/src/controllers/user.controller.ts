@@ -10,6 +10,14 @@ import { loginSchema } from '../schema/loginSchema'
 const register = asyncHandler( async(req:Request, res:Response) => {
     const {fullname, email, password} = req.body
 
+    const userExistWithSameEmail = await User.findOne({email})
+    if(userExistWithSameEmail){
+        throw new ApiError(
+            409,
+            "User with same email already exists"
+        )
+    }
+
     if(!fullname || !email || !password ){
         throw new ApiError(
             400,

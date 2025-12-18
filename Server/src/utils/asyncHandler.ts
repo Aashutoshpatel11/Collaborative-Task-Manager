@@ -4,7 +4,7 @@ const asyncHandler = (fn:any) => (async(req:any, res:any, next:any) => {
     } catch (error: unknown) {
         if( error instanceof Error ){
             console.error("ERROR OBJECT :: ", error);
-            res.status( error.code || 500 ).json({
+            res.status( error.statusCode  || 500 ).json({
                 message: error.message || "something went wrong",
                 success: false
             }
