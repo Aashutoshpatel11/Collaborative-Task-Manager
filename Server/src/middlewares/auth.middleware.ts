@@ -4,6 +4,7 @@ import { ApiError } from "../utils/ApiError";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model";
 
+
 const authJwt = asyncHandler( async(req:Request, resizeBy:Response, next:NextFunction) => {
     const accessToken = req.cookies.accessToken
     if(!accessToken){
@@ -13,7 +14,7 @@ const authJwt = asyncHandler( async(req:Request, resizeBy:Response, next:NextFun
         )
     }
 
-    const decodedToken = await jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET||"")
+    const decodedToken:any = await jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET||"")
     if(!decodedToken){
         throw new ApiError(
             404,

@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import AddTask from './AddTask';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [tab, setTab] = useState("")
+  const [displayAddTaskForm, setDisplayAddTaskForm] = useState(false)
 
   return (
-    <header className="fixed top-0 w-full z-50 border-b border-white/10 bg-black/60 backdrop-blur-md">
+    <header className="fixed top-0 w-full z-20 border-b border-white/10 backdrop-blur-3xl">
+      {displayAddTaskForm && <AddTask setDisplayAddTaskForm= {setDisplayAddTaskForm} />}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
@@ -18,28 +23,17 @@ export default function Header() {
           </div>
 
           <nav className="hidden md:flex space-x-8">
-            <a href="#" className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors">
+            <NavLink onClick={() => setTab('home')} to="/" className={`text-white px-3 py-2 text-sm font-medium border-b-2 ${ tab=='home' ? 'border-blue-500': 'border-none' }`}>
+              All Tasks
+            </NavLink>
+            <NavLink onClick={() => setTab('dashboard')} to="/dashboard" className={`text-white px-3 py-2 text-sm font-medium border-b-2 ${ tab=='dashboard' ? 'border-blue-500': 'border-none' }`}>
               Dashboard
-            </a>
-            <a href="#" className="text-white px-3 py-2 text-sm font-medium border-b-2 border-blue-500">
-              My Tasks
-            </a>
-            <a href="#" className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium transition-colors">
-              Team View
-            </a>
+            </NavLink>
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            
-            {/* <button className="relative p-2 text-gray-400 hover:text-white transition-colors">
-              <span className="sr-only">View notifications</span>
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-              </svg>
-              <span className="absolute top-2 right-2 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-black"></span>
-            </button> */}
 
-            <button className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition shadow-lg shadow-blue-500/20">
+            <button onClick={() => setDisplayAddTaskForm(true)} className="btn btn-primary">
               + New Task
             </button>
 
@@ -49,7 +43,7 @@ export default function Header() {
           <div className="flex md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-400 hover:text-white p-2"
+              className="btn btn-neutral"
             >
               <span className="sr-only">Open menu</span>
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -73,7 +67,7 @@ export default function Header() {
               Team View
             </a>
             <div className="pt-4 pb-2 border-t border-white/10 mt-4">
-              <button className="w-full text-center bg-blue-600 text-white px-4 py-3 rounded-lg font-medium">
+              <button onClick={() => setDisplayAddTaskForm(true)}  className="btn btn-primary">
                 Create New Task
               </button>
             </div>

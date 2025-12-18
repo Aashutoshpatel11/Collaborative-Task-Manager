@@ -24,17 +24,17 @@
   }
 
   .btn-primary {
-    @apply bg-blue-600 text-white border border-transparent
+    @apply bg-blue-600 text-white 
            hover:bg-blue-500 hover:shadow-blue-500/25
   }
 
   .btn-secondary {
-    @apply bg-white/10 text-gray-200 border border-white/10
+    @apply bg-white/10 text-gray-200 
            hover:bg-white/20 hover:text-white
   }
 
   .btn-danger {
-    @apply bg-red-600 text-white border border-transparent
+    @apply bg-red-600 text-white 
            hover:bg-red-500 hover:shadow-red-600/25
   }
 }

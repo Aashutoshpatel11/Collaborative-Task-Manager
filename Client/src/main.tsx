@@ -13,6 +13,7 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import RegisterPage from './components/pages/RegisterPage.tsx'
 import LoginPage from './components/pages/LoginPage.tsx'
 import HomePage from './components/pages/HomePage.tsx'
+import DashboardPage from './components/pages/DashboardPage.tsx'
 
 const queryClient = new QueryClient()
 
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')!).render(
           <Routes>
             <Route path='/' element={<App/>} >
               <Route path='/' element={<HomePage />} ></Route>
+              <Route path='/dashboard' element={<DashboardPage />} ></Route>
             </Route>
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/login' element={<LoginPage />} />

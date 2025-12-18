@@ -36,6 +36,69 @@ const createTask = asyncHandler( async(req:Request, res:Response) => {
 
 } )
 
+const allTask = asyncHandler( async(req:Request, res:Response) => {
+    const tasks = await Task.find().populate({
+        path: 'creatorId',
+        select: 'fullname'
+    }).populate({
+        path: 'assignedToId',
+        select: 'fullname'
+    })
+
+    // const tasks = await Task.aggregate(
+    //     [
+    //         {
+    //             $match: {}
+    //         },
+    //         {
+    //             $lookup: {
+    //                 from: "User",
+    //                 localField: "creatorId",
+    //                 foreignField: "_id",
+    //                 as: "Assignee",
+    //                 pipeline: [
+    //                     {
+    //                         $project: {
+    //                             fullname: 1
+    //                         }
+    //                     }
+    //                 ]
+    //             }
+    //         },
+    //         {
+    //             $addFields:{
+    //                 assignee: {
+    //                     $first: "$Assignee"
+    //                 }
+    //             }
+    //         }
+    //         // {
+    //         //     $addFields: {
+    //         //         assignee: "$Assignee"
+
+    //         //     }
+    //         // }
+    //     ]
+    // )
+    
+    if(!tasks.length){
+        return res.json(
+            new ApiResponse(
+                200,
+                tasks,
+                "No tasks available for this user"
+            )
+        )
+    }
+    return res.json(
+        new ApiResponse(
+            200,
+            tasks,
+            "Tasks fetched"
+        )
+    )
+} )
+
 const createdTask = asyncHandler( async(req:Request, res:Response) => {
     const tasks = await Task.find({creatorId: req.user._id})
     
@@ -134,6 +197,7 @@ const deleteTask = asyncHandler( async(req:Request, res:Response) => {
 
 export {
     createTask,
+    allTask,
     createdTask,
     assignedToMeTask,
     updateTask, 

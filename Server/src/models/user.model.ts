@@ -6,6 +6,9 @@ export interface User extends Document{
     email: string,
     password: string,
     refreshToken: string,
+
+    generateAccessToken(): string,
+    generateRefreshToken(): string
 }
 
 const userSchema: Schema<User> = new Schema( {

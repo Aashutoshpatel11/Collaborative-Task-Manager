@@ -125,7 +125,7 @@ const login = asyncHandler( async(req:Request, res:Response) => {
 } )
 
 const updateDetails = asyncHandler( async(req:Request, res:Response) => {
-    const user = req.user
+    const user:any = req.user
 
     const {fullname, email} = req.body
 
@@ -164,7 +164,7 @@ const updateDetails = asyncHandler( async(req:Request, res:Response) => {
 
 const changePassword = asyncHandler( async(req:Request, res:Response ) => {
     const {oldPassword, newPassword} = req.body
-    const user = req.user
+    const user:any = req.user
 
     console.log("OLD :: ", oldPassword);
     console.log("NEW :: ", newPassword);
@@ -221,8 +221,9 @@ const changePassword = asyncHandler( async(req:Request, res:Response ) => {
 } )
 
 const logout = asyncHandler( async(req:Request, res:Response) => {
+    const userId:any = req.user!._id
     const user = await User.findByIdAndUpdate(
-        req.user._id,
+        userId,
         {
             refreshToken: ""
         },
@@ -237,7 +238,7 @@ const logout = asyncHandler( async(req:Request, res:Response) => {
     }
 
     return res
-    .clearCookie("accessToken", {httpOnly: true, secrue:true})
+    .clearCookie("accessToken", {httpOnly: true, secure:true})
     .json(
         new ApiResponse(
             200,
@@ -247,10 +248,31 @@ const logout = asyncHandler( async(req:Request, res:Response) => {
     )
 })
 
+const getAllUserNames = asyncHandler( async(req:Request, res:Response) => {
+    const users = await User.find().select('fullname')
+
+    if(!users){
+        throw new ApiError(
+            404,
+            "Can't fetch user"
+        )
+    }
+
+    return res.json(
+        new ApiResponse(
+            200,
+            users,
+            "Users fetched successfully",
+            true
+        )
+    )
+} )
+
 export {
     register,
     login, 
     updateDetails,
     changePassword,
-    logout
+    logout,
+    getAllUserNames
 }
