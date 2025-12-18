@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import AddTask from './AddTask';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteTask } from '../api/user.api'
 
 interface Task {
   _id: string;
@@ -34,6 +36,21 @@ export default function TaskItem({ task }: TaskItemProps) {
   const handleUpdateTask = async(task) => {
     setDisplayEditTask(true)
   }  
+  const queryClient = useQueryClient()
+
+  const deleteTaskQuery = useMutation({
+    mutationKey: ['deleteTask'],
+    mutationFn: deleteTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['AllTasks']
+      })
+    }
+  })
+
+  const handleDelete = async (_id:string) => {
+    deleteTaskQuery.mutate(_id)
+  }
   
   
   return (
@@ -99,6 +116,7 @@ export default function TaskItem({ task }: TaskItemProps) {
           Update
         </button>
         <button 
+          onClick={() => handleDelete(task._id)}
           className="btn btn-danger text-xs px-3 py-1.5 h-auto"
           title="Delete Task"
         >

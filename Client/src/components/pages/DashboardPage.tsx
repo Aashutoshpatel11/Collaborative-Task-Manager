@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TaskItem from '../TaskItem';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '../Loader';
@@ -8,14 +8,57 @@ import { getAllTask } from '../../api/user.api';
 export default function DashboardPage() {
     const [viewFilter, setViewFilter] = useState<'assigned' | 'created'>('assigned');
     const [taskTodisplay, setTaskToDisplay] = useState([])
+    const [sortBy, setSortBy] = useState("")
+    const [priority, setPriority] = useState("")
+    const [status, setStatus] = useState("")
 
-    // const {data, isError, error, isSuccess, isPending} = useQuery({
+    const priorityOrder = {
+        Urgent: 1,
+        High: 2,
+        Medium: 3,
+        Low: 4
+    }
+
     const getAllTaskQuery = useQuery({
         queryKey: ['AllTasks'],
-        queryFn: getAllTask
+        queryFn: getAllTask,
     })
 
+    useEffect( () => {
+        if( getAllTaskQuery.isSuccess ){
+            if( priority == "" && status == "" ){
+                setTaskToDisplay(getAllTaskQuery.data.data) 
+            }else{
+                setTaskToDisplay( getAllTaskQuery.data.data.filter( (task:any) => {
+                    if( priority =="" ){
+                        return task.status == status
+                    }else if( status == "" ){
+                        return task.priority == priority
+                    }
+                    return task.status == status && task.priority == priority
+                    } 
+                ))
+            }
+        }
+            
+    }, [priority, status, getAllTaskQuery.isSuccess] )
 
+
+    useEffect( () => {
+        if( sortBy == "" ){
+            setTaskToDisplay(getAllTaskQuery?.data.data)
+        }else if( sortBy == "priority" ){
+            setTaskToDisplay((prev) =>
+                [...prev].sort( (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority] )
+            )
+        }else if( sortBy == "date" ){
+            setTaskToDisplay((prev) =>
+                [...prev].sort( (a, b) => new Date(a.dueDate) - new Date(b.dueDate) )
+            )
+        }
+    }, [sortBy] )
+
+    console.log("SORT BY ::", sortBy)
 
     return (
         <div className="min-h-screen w-full  text-gray-100 p-6 md:p-8">
@@ -53,22 +96,23 @@ export default function DashboardPage() {
                     <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Filters</h2>
                     <div className="space-y-4">
                         <div>
-                        <label className="text-xs text-gray-500 mb-1.5 block">Priority</label>
-                        <select className="input text-sm py-2 bg-black/90 backdrop-blur-3xl ">
-                            <option>All Priorities</option>
-                            <option>High</option>
-                            <option>Medium</option>
-                            <option>Low</option>
-                        </select>
+                            <label className="text-xs text-gray-500 mb-1.5 block">Priority</label>
+                            <select onClick={(e) => setPriority(e.target.value)} className="input text-sm py-2 bg-black/90 backdrop-blur-3xl ">
+                                <option value={""} >All Priorities</option>
+                                <option value={"High"} >High</option>
+                                <option value={"Medium"} >Medium</option>
+                                <option value={"Low"} >Low</option>
+                            </select>
                         </div>
                         <div>
-                        <label className="text-xs text-gray-500 mb-1.5 block">Status</label>
-                        <select className="input text-sm py-2  bg-black/90 backdrop-blur-3xl ">
-                            <option>All Status</option>
-                            <option>To Do</option>
-                            <option>In Progress</option>
-                            <option>Completed</option>
-                        </select>
+                            <label className="text-xs text-gray-500 mb-1.5 block">Status</label>
+                            <select onClick={(e) => setStatus(e.target.value)} className="input text-sm py-2  bg-black/90 backdrop-blur-3xl ">
+                                <option value={""} >All Status</option>
+                                <option value={"To Do"} >To Do</option>
+                                <option value={"In Progress"} >In Progress</option>
+                                <option value={"Review"} >Review</option>
+                                <option value={"Completed"} >Completed</option>
+                            </select>
                         </div>
                     </div>
                     </div>
@@ -83,9 +127,10 @@ export default function DashboardPage() {
                     
                     <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-500">Sort by:</span>
-                        <select className="bg-transparent border-none text-sm text-gray-300 focus:ring-0 cursor-pointer hover:text-white font-medium">
-                        <option className="bg-gray-900">Due Date (Earliest)</option>
-                        <option className="bg-gray-900">Priority (Highest)</option>
+                        <select onClick={(e) => setSortBy(e.target.value)} className="bg-transparent border-none text-sm text-gray-300 focus:ring-0 cursor-pointer hover:text-white font-medium">
+                            <option value={""} className="bg-gray-900">None</option>
+                            <option value={"priority"} className="bg-gray-900">Priority (Highest)</option>
+                            <option value={"date"} className="bg-gray-900">Due Date (Earliest)</option>
                         </select>
                     </div>
                     </div>
@@ -95,12 +140,12 @@ export default function DashboardPage() {
                         <Loader />
                         </div> : 
                         <div className="space-y-3">
-                            {getAllTaskQuery.isSuccess && getAllTaskQuery.data.data.map((task) => (
+                            {taskTodisplay.length?  taskTodisplay.map((task) => (
                             <TaskItem 
-                                key={task.id} 
+                                key={task._id} 
                                 task={task as any}
                             />
-                            ))}
+                            )): "No Tasks"}
                         </div>
                     }
                     </div>

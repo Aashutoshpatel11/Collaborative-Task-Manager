@@ -59,3 +59,9 @@ export const updateTask = async (data:updateTaskData) => {
     const res = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/task/update/${data._id}`, data ,{withCredentials: true})
     return res.data
 }
+
+export const deleteTask = async (_id:string) => {
+    console.log("ID", _id)
+    const res = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/task/delete/${_id}` ,{withCredentials: true})
+    return res.data
+}

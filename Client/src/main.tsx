@@ -14,6 +14,7 @@ import RegisterPage from './components/pages/RegisterPage.tsx'
 import LoginPage from './components/pages/LoginPage.tsx'
 import HomePage from './components/pages/HomePage.tsx'
 import DashboardPage from './components/pages/DashboardPage.tsx'
+import TestPage from './components/pages/TestPage.tsx'
 
 const queryClient = new QueryClient()
 
@@ -27,6 +28,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path='/' element={<HomePage />} ></Route>
               <Route path='/dashboard' element={<DashboardPage />} ></Route>
             </Route>
+            <Route path='/test' element={<TestPage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/login' element={<LoginPage />} />
           </Routes>
