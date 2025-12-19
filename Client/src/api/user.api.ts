@@ -38,6 +38,9 @@ type updateTaskData= {
     assignedToId: string
 }
 
+
+// USER APIS
+
 export const registerUser = async (data:userRegisterData) => {
     const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/register`, data, {withCredentials: true})
     return res.data
@@ -67,6 +70,11 @@ export const changePassword = async (data:changePasswordData) => {
     const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/change-password`,data,  {withCredentials: true})
     return res.data
 }
+
+
+
+
+// TASK APIS
 
 export const getAllTask = async () => {
     const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/task/all-tasks`, {withCredentials: true})

@@ -5,6 +5,7 @@ import { User } from "../models/user.model";
 import { Task } from "../models/task.model"
 import { taskSchema } from "../schema/taskSchema";
 import { Request, Response } from "express";
+import { getIo } from "../socket/socket";
 
 const createTask = asyncHandler( async(req:Request, res:Response) => {
     
@@ -15,7 +16,7 @@ const createTask = asyncHandler( async(req:Request, res:Response) => {
     
 
     const validTask  = taskSchema.parse({title, description, dueDate, priority, status, creatorId, assignedToId})
-    console.log("VALIDTASK :: ", validTask);
+    // console.log("VALIDTASK :: ", validTask);
 
     const task = await Task.create(validTask)
     if(!task){
@@ -24,6 +25,13 @@ const createTask = asyncHandler( async(req:Request, res:Response) => {
             "Task not created"
         )
     }
+
+    const io = getIo()
+
+    // io.on('connection', (socket) => {
+    //     console.log("Socket IN TASk")
+        io.emit("Task", task )
+    // })
 
     return res.json(
         new ApiResponse(

@@ -6,6 +6,7 @@ import { passwordSchema, registerSchema } from '../schema/registerSchema'
 import {Request, response, Response} from 'express'
 import bcrypt from "bcryptjs"
 import { loginSchema } from '../schema/loginSchema'
+import jwt from 'jsonwebtoken'
 
 const register = asyncHandler( async(req:Request, res:Response) => {
     const {fullname, email, password} = req.body
@@ -240,6 +241,7 @@ const logout = asyncHandler( async(req:Request, res:Response) => {
 
     return res
     .clearCookie("accessToken", {httpOnly: true, secure:true})
+    .clearCookie("refreshToken", {httpOnly: true, secure:true})
     .json(
         new ApiResponse(
             200,
@@ -272,6 +274,9 @@ const getAllUserNames = asyncHandler( async(req:Request, res:Response) => {
 const getCurrentUser = asyncHandler( async(req:Request, res:Response) => {
     const {accessToken, refreshToken} = req.cookies
 
+    const verifiedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET||"") 
+
+
     if(!refreshToken){
         throw new ApiError(
             401,
@@ -279,7 +284,6 @@ const getCurrentUser = asyncHandler( async(req:Request, res:Response) => {
         )
     }
 
-    console.log("accessToken", accessToken, "/n refreshToken", refreshToken);
 
     const currentUser = await User.findOne({refreshToken: refreshToken}).select('-refreshToken -password')
 
@@ -295,6 +299,7 @@ const getCurrentUser = asyncHandler( async(req:Request, res:Response) => {
 
         return res
         .cookie("accessToken", newAccessToken, {httpOnly: true, secure: true})
+        .cookie("refreshToken", refreshToken, {httpOnly: true, secure: true})
         .json(
             new ApiResponse(
                 200,
@@ -306,6 +311,8 @@ const getCurrentUser = asyncHandler( async(req:Request, res:Response) => {
     }
 
     return res
+    .cookie("accessToken", accessToken, {httpOnly: true, secure: true})
+    .cookie("refreshToken", refreshToken, {httpOnly: true, secure: true})
     .json(
         new ApiResponse(
             200,

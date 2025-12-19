@@ -1,21 +1,24 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AddTask from './AddTask';
-import { useMutation } from '@tanstack/react-query';
+import { QueryClient, useMutation } from '@tanstack/react-query';
 import { getCurrentUser } from '../api/user.api';
 import { useDispatch } from 'react-redux';
 import { login, logout } from '../store/authSlice';
+import axios from 'axios';
+import { socket } from '../socket/socket';
+import toast from 'react-hot-toast';
 import { useAppSelector } from '../store/hooks';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [tab, setTab] = useState("")
   const [displayAddTaskForm, setDisplayAddTaskForm] = useState(false)
-
-  const user:any = useAppSelector(state => state.auth.userData)
-
-  const disptach = useDispatch()
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+  const queryClient = new QueryClient()
+
+  const user = useAppSelector(state => state.auth.userData)
 
   const getCurrentUserMutation = useMutation({
     mutationKey: ['Current User'],
@@ -23,16 +26,54 @@ export default function Header() {
   })
 
   if( getCurrentUserMutation.isSuccess ){
-    disptach( login(getCurrentUserMutation.data.data) )
+    dispatch( login(getCurrentUserMutation.data.data) )
+    socket.connect()
   }
   if(getCurrentUserMutation.isError){
-    disptach( logout() )
+    dispatch( logout() )
     navigate('/login')
   }
 
   useEffect( () => {
     getCurrentUserMutation.mutate()
   }, [] )
+
+  const handleLogout = async() => {
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/user/logout`,  {withCredentials: true})
+      console.log(res.data.success)
+      if( res.data.success ){
+        dispatch(logout())
+        navigate('/login')
+      }
+    } catch (error) {
+      if( error instanceof Error ){
+        throw new Error(error.message)
+      }
+      throw new Error("Error Logging out user")
+    }
+  }
+
+  useEffect(() => {
+    if (!user) return
+
+    const handleTask = (task) => {
+      queryClient.invalidateQueries({ queryKey: ["AllTasks"] })
+      if (task.assignedToId === user._id, {duration: 10000}) {
+        toast.success("New Task Assigned to You")
+      }else{
+        toast.success(`New Task Added : ${task.title}`, {duration: 10000})
+      }
+    }
+
+    socket.on("Task", handleTask)
+
+    return () => {
+      socket.off("Task", handleTask)
+    }
+  }, [user])
+
+
 
   return (
     <header className="fixed top-0 w-full z-20 border-b border-white/10 backdrop-blur-3xl">
@@ -41,9 +82,6 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           
           <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer">
-            {/* <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center font-bold text-white">
-              T
-            </div> */}
             <span className="font-bold text-xl tracking-tight text-white">
               Task Manager
             </span>
@@ -62,6 +100,9 @@ export default function Header() {
 
             <button onClick={() => setDisplayAddTaskForm(true)} className="btn btn-primary">
               + New Task
+            </button>
+            <button onClick={ () => handleLogout()} className="btn btn-danger">
+              Logout
             </button>
 
             <button onClick={ () => { navigate(`/profile/${user?._id}`) } } className="bg-black p-3 rounded-full">
@@ -90,18 +131,20 @@ export default function Header() {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-black/95 backdrop-blur-xl border-b border-white/10">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-white bg-white/10">
+            <NavLink to="/" className="block px-3 py-2 rounded-md text-base font-medium text-white bg-white/10">
+              All Tasks
+            </NavLink>
+            <NavLink to="/dashboard" className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/5">
               Dashboard
-            </a>
-            <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/5">
-              My Tasks
-            </a>
-            <a href="#" className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/5">
-              Team View
-            </a>
+            </NavLink>
             <div className="pt-4 pb-2 border-t border-white/10 mt-4">
               <button onClick={() => setDisplayAddTaskForm(true)}  className="btn btn-primary">
                 Create New Task
+              </button>
+            </div>
+            <div className="pt-4 pb-2 border-t border-white/10 mt-4">
+              <button onClick={ () => handleLogout()} className="btn btn-danger">
+                Logout
               </button>
             </div>
           </div>

@@ -3,6 +3,7 @@ import TaskItem from '../TaskItem';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '../Loader';
 import { getAllTask } from '../../api/user.api';
+import { useAppSelector } from '../../store/hooks';
 
 
 export default function DashboardPage() {
@@ -12,7 +13,9 @@ export default function DashboardPage() {
     const [priority, setPriority] = useState("")
     const [status, setStatus] = useState("")
 
-    const priorityOrder = {
+    const user:any = useAppSelector( state => state.auth.userData )
+
+    const priorityOrder:any = {
         Urgent: 1,
         High: 2,
         Medium: 3,
@@ -58,7 +61,6 @@ export default function DashboardPage() {
         }
     }, [sortBy] )
 
-    console.log("SORT BY ::", sortBy)
 
     return (
         <div className="min-h-screen w-full  text-gray-100 p-6 md:p-8">
@@ -77,6 +79,7 @@ export default function DashboardPage() {
                     <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
                     <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Views</h2>
                     <div className="space-y-1">
+
                         <button 
                         onClick={() => setViewFilter('assigned')}
                         className={`btn btn w-full ${viewFilter === 'assigned' ? 'btn-secondary': 'btn'}`}
