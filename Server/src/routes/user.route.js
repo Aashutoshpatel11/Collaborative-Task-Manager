@@ -3,7 +3,7 @@ import { Router } from "express";
 const userRoute = Router()
 
 // ROUTE IMPORTS
-import { changePassword, getAllUserNames, login, logout, register, updateDetails } from "../controllers/user.controller.ts";
+import { changePassword, getAllUserNames, getCurrentUser, login, logout, register, updateDetails } from "../controllers/user.controller.ts";
 import { authJwt } from "../middlewares/auth.middleware.ts";
 
 userRoute.route('/register').post(register)
@@ -12,5 +12,6 @@ userRoute.route('/update-details').post(authJwt, updateDetails)
 userRoute.route('/change-password').post(authJwt, changePassword)
 userRoute.route('/logout').get(authJwt, logout)
 userRoute.route('/get-all-users-name').get(authJwt, getAllUserNames)
+userRoute.route('/current-user').get(getCurrentUser)
 
 export default userRoute

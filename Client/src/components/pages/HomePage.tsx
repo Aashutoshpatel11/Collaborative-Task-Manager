@@ -12,7 +12,7 @@ export default function Home() {
   })
 
   return (
-    <div className="min-h-screen w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-800 via-black to-black text-gray-100">
+    <div className="min-h-screen w-full text-gray-100">
       
       <div className="max-w-4xl mx-auto px-4 py-12">
         

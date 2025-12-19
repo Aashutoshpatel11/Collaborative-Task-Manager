@@ -9,6 +9,15 @@ type userLoginData= {
     email: string,
     password: string
 }
+type userUpdateData = {
+    fullname: string,
+    email: string
+}
+
+type changePasswordData={
+    oldPassword: string,
+    newPassword: string
+}
 
 type createTaskData= {
     title: string,
@@ -39,8 +48,23 @@ export const loginUser = async (data:userLoginData) => {
     return res.data
 }
 
+export const getCurrentUser = async() => {
+    const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/user/current-user`, {withCredentials: true})
+    return res.data
+}
+
 export const getAllUserNames = async () => {
     const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/user/get-all-users-name`, {withCredentials: true})
+    return res.data
+}
+
+export const updateUser = async (data:userUpdateData) => {
+    const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/update-details`,data,  {withCredentials: true})
+    return res.data
+}
+
+export const changePassword = async (data:changePasswordData) => {
+    const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/change-password`,data,  {withCredentials: true})
     return res.data
 }
 

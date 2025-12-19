@@ -110,8 +110,9 @@ const login = asyncHandler( async(req:Request, res:Response) => {
             "User not logged in"
         )
     }
-
+    
     return res
+    .cookie("refreshToken",refreshToken, {httpOnly:true, secure: true} )
     .cookie("accessToken",accessToken, {httpOnly:true, secure: true} )
     .json(
         new ApiResponse(
@@ -268,11 +269,59 @@ const getAllUserNames = asyncHandler( async(req:Request, res:Response) => {
     )
 } )
 
+const getCurrentUser = asyncHandler( async(req:Request, res:Response) => {
+    const {accessToken, refreshToken} = req.cookies
+
+    if(!refreshToken){
+        throw new ApiError(
+            401,
+            "User not unauthorized"
+        )
+    }
+
+    console.log("accessToken", accessToken, "/n refreshToken", refreshToken);
+
+    const currentUser = await User.findOne({refreshToken: refreshToken}).select('-refreshToken -password')
+
+    if(!currentUser){
+        throw new ApiError(
+            401,
+            "User not unauthorized"
+        )
+    }
+
+    if(!accessToken){
+        const newAccessToken = await currentUser.generateAccessToken()
+
+        return res
+        .cookie("accessToken", newAccessToken, {httpOnly: true, secure: true})
+        .json(
+            new ApiResponse(
+                200,
+                currentUser,
+                "User is Authorized",
+                true
+            )
+        )
+    }
+
+    return res
+    .json(
+        new ApiResponse(
+            200,
+            currentUser,
+            "User is Authorized",
+            true
+        )
+    )
+} )
+
 export {
     register,
     login, 
     updateDetails,
     changePassword,
     logout,
-    getAllUserNames
+    getAllUserNames,
+    getCurrentUser
 }

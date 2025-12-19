@@ -1,11 +1,38 @@
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import AddTask from './AddTask';
+import { useMutation } from '@tanstack/react-query';
+import { getCurrentUser } from '../api/user.api';
+import { useDispatch } from 'react-redux';
+import { login, logout } from '../store/authSlice';
+import { useAppSelector } from '../store/hooks';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [tab, setTab] = useState("")
   const [displayAddTaskForm, setDisplayAddTaskForm] = useState(false)
+
+  const user:any = useAppSelector(state => state.auth.userData)
+
+  const disptach = useDispatch()
+  const navigate = useNavigate()
+
+  const getCurrentUserMutation = useMutation({
+    mutationKey: ['Current User'],
+    mutationFn: getCurrentUser
+  })
+
+  if( getCurrentUserMutation.isSuccess ){
+    disptach( login(getCurrentUserMutation.data.data) )
+  }
+  if(getCurrentUserMutation.isError){
+    disptach( logout() )
+    navigate('/login')
+  }
+
+  useEffect( () => {
+    getCurrentUserMutation.mutate()
+  }, [] )
 
   return (
     <header className="fixed top-0 w-full z-20 border-b border-white/10 backdrop-blur-3xl">
@@ -14,11 +41,11 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           
           <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center font-bold text-white">
+            {/* <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center font-bold text-white">
               T
-            </div>
+            </div> */}
             <span className="font-bold text-xl tracking-tight text-white">
-              TaskFlow
+              Task Manager
             </span>
           </div>
 
@@ -37,7 +64,13 @@ export default function Header() {
               + New Task
             </button>
 
-            <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-gray-700 to-gray-600 border border-white/10 cursor-pointer"></div>
+            <button onClick={ () => { navigate(`/profile/${user?._id}`) } } className="bg-black p-3 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
+                <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z"/>
+                <path d="M12 14c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/>
+              </svg>
+            </button>
+
           </div>
 
           <div className="flex md:hidden">
