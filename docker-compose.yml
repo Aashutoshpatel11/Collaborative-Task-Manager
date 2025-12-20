@@ -11,7 +11,7 @@ services:
       - DB_NAME=CollaborativeTask
       - PORT=4000
       - ACCESS_TOKEN_SECRET=d5d5d5
-      - ACCESS_TOKEN_EXPIRY=2h
+      - ACCESS_TOKEN_EXPIRY=4h
       - REFRESH_TOKEN_SECRET=d5d5d5
       - REFRESH_TOKEN_EXPIRY=5d
     depends_on:

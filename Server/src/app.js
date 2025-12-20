@@ -1,14 +1,19 @@
+import dotenv from 'dotenv'
+dotenv.config({ path: './.env' })
+
 import express from 'express'
-import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 
 const app = express()
 
+// console.log("ORIGIN",process.env.CORS_ORIGIN );
+
 app.use( cors({
-    // origin:process.env.CORS_ORIGIN,
-    origin:"http://localhost:3000",
+    origin:process.env.CORS_ORIGIN?.trim(),
     credentials: true
 }) ) 
+
 
 app.use( express.static('public') )
 app.use( express.json() )

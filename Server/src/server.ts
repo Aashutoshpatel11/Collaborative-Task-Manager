@@ -1,12 +1,12 @@
-import { app } from "./app.js";
+// import dotenv from 'dotenv'
+// dotenv.config({ path: './.env' })
+
+// console.log("ORIGIN AT SERVER ",process.env.CORS_ORIGIN );
+
 import { connectDb } from "./db/index.js";
-import dotenv from 'dotenv'
-import { createServer } from "http";
-import { Server } from 'socket.io'
+import { createServer } from "http"
 import { initSocket } from "./socket/socket.js";
-
-
-dotenv.config({ path: './.env' })
+import { app } from "./app.js";
 
 const httpServer = createServer(app)
 
@@ -19,9 +19,6 @@ connectDb()
     // } )
     httpServer.listen( process.env.PORT, () => {
         console.log(`Listening at port :: `, process.env.PORT);
-        console.log("ORIGIN:: ", process.env.CORS_ORIGIN)
-        console.log("PORT::",process.env.PORT)
-
     } )
 } )
 .catch( (error) => {
