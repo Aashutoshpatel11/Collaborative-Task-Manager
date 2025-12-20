@@ -5,7 +5,7 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
-const app = express()
+const app:any = express()
 
 // console.log("ORIGIN",process.env.CORS_ORIGIN );
 
@@ -21,8 +21,8 @@ app.use( express.urlencoded({extended:true, limit:'100kb'}) )
 app.use( cookieParser())
 
 // ROUTE IMPORTS
-import userRoute from './routes/user.route.js'
-import taskRoute from './routes/task.route.js'
+import userRoute from './routes/user.route'
+import taskRoute from './routes/task.route'
 
 
 app.use( '/api/v1/user', userRoute )

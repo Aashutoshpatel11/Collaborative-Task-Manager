@@ -9,7 +9,7 @@ import { getIo } from "../socket/socket";
 
 const createTask = asyncHandler( async(req:Request, res:Response) => {
     
-    const user = req.user
+    const user:any = req.user
     const {title, description, dueDate, priority, status, assignedToId} = req.body
 
     const creatorId = user._id.toString()
@@ -108,7 +108,8 @@ const allTask = asyncHandler( async(req:Request, res:Response) => {
 } )
 
 const createdTask = asyncHandler( async(req:Request, res:Response) => {
-    const tasks = await Task.find({creatorId: req.user._id})
+    const user:any = req.user
+    const tasks = await Task.find({creatorId: user._id})
     
     if(!tasks.length){
         return res.json(
@@ -129,7 +130,8 @@ const createdTask = asyncHandler( async(req:Request, res:Response) => {
 } )
 
 const assignedToMeTask = asyncHandler( async(req:Request, res:Response) => {
-    const tasks = await Task.find({assignedToId: req.user._id})
+    const user:any = req.user
+    const tasks = await Task.find({assignedToId: user._id})
 
     if(!tasks.length){
         return res.json(
@@ -151,7 +153,7 @@ const assignedToMeTask = asyncHandler( async(req:Request, res:Response) => {
 
 const updateTask = asyncHandler( async(req:Request, res:Response) => {
     const {taskId} = req.params
-    const user = req.user
+    const user:any = req.user
     const {title, description, dueDate, priority, status, assignedToId} = req.body
     const creatorId = user._id.toString()
 

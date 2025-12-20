@@ -21,7 +21,7 @@ connectDb()
         console.log(`Listening at port :: `, process.env.PORT);
     } )
 } )
-.catch( (error) => {
+.catch( (error:any) => {
     console.log('DB Connection Failed :: ERROR :: ',error);
     throw(error); 
 } )

@@ -3,8 +3,8 @@ import { Router } from "express";
 const userRoute = Router()
 
 // ROUTE IMPORTS
-import { changePassword, getAllUserNames, getCurrentUser, login, logout, register, updateDetails } from "../controllers/user.controller.ts";
-import { authJwt } from "../middlewares/auth.middleware.ts";
+import { changePassword, getAllUserNames, getCurrentUser, login, logout, register, updateDetails } from "../controllers/user.controller.js";
+import { authJwt } from "../middlewares/auth.middleware.js";
 
 userRoute.route('/register').post(register)
 userRoute.route('/login').post(login)
