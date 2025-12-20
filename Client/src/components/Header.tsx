@@ -3,22 +3,21 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import AddTask from './AddTask';
 import { QueryClient, useMutation } from '@tanstack/react-query';
 import { getCurrentUser } from '../api/user.api';
-import { useDispatch } from 'react-redux';
 import { login, logout } from '../store/authSlice';
 import axios from 'axios';
 import { socket } from '../socket/socket';
 import toast from 'react-hot-toast';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [tab, setTab] = useState("")
   const [displayAddTaskForm, setDisplayAddTaskForm] = useState(false)
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const queryClient = new QueryClient()
 
-  const user = useAppSelector(state => state.auth.userData)
+  const user:any = useAppSelector(state => state.auth.userData)
 
   const getCurrentUserMutation = useMutation({
     mutationKey: ['Current User'],
@@ -57,10 +56,10 @@ export default function Header() {
   useEffect(() => {
     if (!user) return
 
-    const handleTask = (task) => {
+    const handleTask = (task:any) => {
       queryClient.invalidateQueries({ queryKey: ["AllTasks"] })
-      if (task.assignedToId === user._id, {duration: 10000}) {
-        toast.success("New Task Assigned to You")
+      if (task.assignedToId === user._id) {
+        toast.success("New Task Assigned to You", {duration: 10000})
       }else{
         toast.success(`New Task Added : ${task.title}`, {duration: 10000})
       }

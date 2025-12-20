@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AddTask from './AddTask';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteTask } from '../api/user.api'
@@ -33,9 +33,14 @@ const getStatusColor = (s: string) => {
 export default function TaskItem({ task }: TaskItemProps) {
 
   const [displayEditTask, setDisplayEditTask] = useState(false)
-  const handleUpdateTask = async(task) => {
+
+  // const handleUpdateTask = async(task:any) => {
+  //   setDisplayEditTask(true)
+  // }  
+  const handleUpdateTask = async() => {
     setDisplayEditTask(true)
   }  
+
   const queryClient = useQueryClient()
 
   const deleteTaskQuery = useMutation({
@@ -109,9 +114,9 @@ export default function TaskItem({ task }: TaskItemProps) {
 
       <div className="flex items-center gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 self-center md:self-start mt-2 md:mt-0">
         <button 
-          onClick={() => handleUpdateTask(task)}
+          onClick={() => handleUpdateTask()}
           className="btn btn-neutral text-xs px-3 py-1.5 h-auto"
-          title="Reassign Task"
+          title="Update Task"
         >
           Update
         </button>

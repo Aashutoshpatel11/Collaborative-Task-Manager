@@ -13,12 +13,13 @@ type Inputs = {
 function Register() {
   const { handleSubmit, register, formState: {errors, isValid} } = useForm<Inputs>({mode:"onChange"})
   const navigate = useNavigate()
-  const {isPending, isError, error, isSuccess, mutate} = useMutation({
+  
+  const registerUserMutation:any = useMutation({
     mutationFn: registerUser,
     mutationKey: ["registerUser"]
   })
 
-  if(isSuccess){
+  if(registerUserMutation.isSuccess){
     navigate('/login')
   }
 
@@ -36,7 +37,7 @@ function Register() {
       </div>
 
 
-      <form onSubmit={ handleSubmit( (data:Inputs) => mutate(data) ) } action="submit">
+      <form onSubmit={ handleSubmit( (data:Inputs) => registerUserMutation.mutate(data) ) } action="submit">
 
         <div>
           <label className=" text-sm font-medium text-gray-400 mb-1">Fullname</label>
@@ -79,12 +80,12 @@ function Register() {
           type='submit'
           disabled={!isValid}
           className="btn btn-primary w-1/2">Register</button>
-          {isPending && <Loader />}
+          {registerUserMutation.isPending && <Loader />}
         </div>
 
       </form>
 
-      { isError && <span className='w-full absolute text-sm font-light text-red-500' >{error?.response?.data?.message}</span>}
+      { registerUserMutation.isError && <span className='w-full absolute text-sm font-light text-red-500' >{registerUserMutation.error?.response?.data?.message}</span>}
 
     </div>
   )

@@ -1,0 +1,61 @@
+# docker-compose.yml
+services:
+  backend:
+    build: ./Server
+    container_name: mern-backend
+    ports:
+      - "4000:4000"
+    environment:
+      - CORS_ORIGIN=http://localhost:3000
+      - MONGODB_URI=mongodb+srv://aashutoshpatel1110_db_user:sCE4xJDeOcGugpba@cluster0.gzlod9m.mongodb.net
+      - DB_NAME=CollaborativeTask
+      - PORT=4000
+      - ACCESS_TOKEN_SECRET=d5d5d5
+      - ACCESS_TOKEN_EXPIRY=2h
+      - REFRESH_TOKEN_SECRET=d5d5d5
+      - REFRESH_TOKEN_EXPIRY=5d
+    depends_on:
+      - mongo
+    networks:
+      - mern-network
+    develop:
+      watch:
+      - action: sync
+        path: ./Server/src
+        target: /app/src
+      - action: rebuild
+        path: ./Server/package.json
+
+  frontend:
+    build: ./Client
+    container_name: mern-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - mern-network
+    develop:
+      watch:
+      - action: sync
+        path: ./Client/src
+        target: /app/src
+      - action: rebuild
+        path: ./Client/package.json
+
+  mongo:
+    image: mongo:latest
+    container_name: mern-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - mern-network
+
+networks:
+  mern-network:
+    driver: bridge
+
+volumes:
+  mongo-data:

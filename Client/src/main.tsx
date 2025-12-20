@@ -12,8 +12,8 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 // Import Pages
 import RegisterPage from './components/pages/RegisterPage.tsx'
 import LoginPage from './components/pages/LoginPage.tsx'
-import HomePage from './components/pages/HomePage.tsx'
-import DashboardPage from './components/pages/DashboardPage.tsx'
+import HomePage from './components/pages/DashboardPage.tsx'
+import DashboardPage from './components/pages/HomePage.tsx'
 import TestPage from './components/pages/TestPage.tsx'
 import ProfilePage from './components/pages/ProfilePage.tsx'
 

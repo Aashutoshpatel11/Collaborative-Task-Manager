@@ -19,6 +19,9 @@ connectDb()
     // } )
     httpServer.listen( process.env.PORT, () => {
         console.log(`Listening at port :: `, process.env.PORT);
+        console.log("ORIGIN:: ", process.env.CORS_ORIGIN)
+        console.log("PORT::",process.env.PORT)
+
     } )
 } )
 .catch( (error) => {

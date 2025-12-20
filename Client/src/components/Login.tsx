@@ -1,4 +1,3 @@
-import React from 'react'
 import Loader from './Loader'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
@@ -18,15 +17,16 @@ function Login() {
   
   const { handleSubmit, register, formState: {errors, isValid} } = useForm<Inputs>({mode:"onChange"})
   
-  const {data: resData, isPending, isError, error, isSuccess, mutate} = useMutation({
+  // const {data: resData, isPending, isError, error, isSuccess, mutate} = useMutation({
+  const loginUserMutation:any = useMutation({
     mutationFn: loginUser,
     mutationKey: ["loginUser"]
   })
 
 
-  if(isSuccess){
-    console.log(resData)
-    dispatch( login({userData: resData.data}) )
+  if(loginUserMutation.isSuccess){
+    console.log(loginUserMutation.data)
+    dispatch( login({userData: loginUserMutation.data.data}) )
     navigate('/')
   }
 
@@ -44,7 +44,7 @@ function Login() {
       </div>
 
 
-      <form onSubmit={ handleSubmit( (data:Inputs) => mutate(data) ) } action="submit">
+      <form onSubmit={ handleSubmit( (data:Inputs) => loginUserMutation.mutate(data) ) } action="submit">
 
         <div>
           <label className=" flex items-center text-sm font-medium text-gray-400 mb-1">Email<p className='text-xs text-red-500 font-thin pl-4' >{errors.email && "*Invalid email or domain*"}</p></label>
@@ -76,12 +76,12 @@ function Login() {
           type='submit'
           disabled={!isValid}
           className="btn btn-primary w-1/2">Loign</button>
-          {isPending && <Loader />}
+          {loginUserMutation.isPending && <Loader />}
         </div>
 
       </form>
 
-      { isError && <span className='w-full absolute text-sm font-light text-red-500' >{error?.response?.data?.message}</span>}
+      { loginUserMutation.isError && <span className='w-full absolute text-sm font-light text-red-500' >{loginUserMutation.error?.response?.data?.message}</span>}
 
     </div>
   )

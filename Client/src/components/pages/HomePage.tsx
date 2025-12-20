@@ -1,46 +1,163 @@
-
+import { useEffect, useState } from 'react';
 import TaskItem from '../TaskItem';
 import { useQuery } from '@tanstack/react-query';
-import { getAllTask } from '../../api/user.api';
 import Loader from '../Loader';
+import { getAllTask } from '../../api/user.api';
 
-export default function Home() {
 
-  const {data, isSuccess, isPending} = useQuery({
-    queryKey: ['AllTasks'],
-    queryFn: getAllTask
-  })
+export default function DashboardPage() {
+    const [taskTodisplay, setTaskToDisplay] = useState([])
+    const [sortBy, setSortBy] = useState("")
+    const [priority, setPriority] = useState("")
+    const [status, setStatus] = useState("")
 
-  return (
-    <div className="min-h-screen w-full text-gray-100">
-      
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-white tracking-tight">All Tasks</h1>
-            <p className="text-gray-400 mt-1">Real-time updates across the team.</p>
-          </div>
-        </div>
+    // const user:any = useAppSelector( state => state.auth.userData )
+    console.log("TASKS::", taskTodisplay);
+    
 
-        {isPending? <div className='w-full flex justify-center items-center' >
-          <Loader />
-        </div> : 
-          <div className="space-y-3">
-            {isSuccess && [...data.data].reverse().map((task) => (
-              <TaskItem 
-                key={task._id} 
-                task={task as any}
-              />
-            ))}
-          </div>
+    const priorityOrder:any = {
+        Urgent: 1,
+        High: 2,
+        Medium: 3,
+        Low: 4
+    }
+
+    const getAllTaskQuery = useQuery({
+        queryKey: ['AllTasks'],
+        queryFn: getAllTask,
+    })
+
+    useEffect( () => {
+        if( getAllTaskQuery.isSuccess ){
+            if( priority == "" && status == "" ){
+                setTaskToDisplay(getAllTaskQuery.data.data) 
+            }else{
+                setTaskToDisplay( getAllTaskQuery.data.data.filter( (task:any) => {
+                    if( priority =="" ){
+                        return task.status == status
+                    }else if( status == "" ){
+                        return task.priority == priority
+                    }
+                    return task.status == status && task.priority == priority
+                    } 
+                ))
+            }
+            
         }
+            
+    }, [priority, status, getAllTaskQuery.isSuccess] )
 
-        <div className="mt-8 text-center border-t border-white/10 pt-8">
-          <p className="text-gray-500 text-sm mb-4">You've reached the end of the list.</p>
+
+    useEffect( () => {
+        if( sortBy == "" ){
+            setTaskToDisplay(getAllTaskQuery?.data?.data)
+        }else if( sortBy == "priority" ){
+            setTaskToDisplay((prev) =>
+                [...prev].sort( (a:any, b:any) => priorityOrder[a.priority] - priorityOrder[b.priority] )
+            )
+        }else if( sortBy == "date" ){
+            setTaskToDisplay((prev) =>
+                [...prev].sort( (a:any, b:any) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
+            )
+        }
+    }, [sortBy] )
+
+
+    return (
+        <div className="min-h-screen w-full  text-gray-100 p-6 md:p-8">
+            <div className="max-w-5xl mx-auto space-y-8">
+                
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold text-white tracking-tight">All Tasks</h1>
+                    <p className="text-gray-400 mt-1">Real-time updates across the team.</p>
+                </div>
+                </div>
+
+                <div className="flex flex-col lg:flex-row gap-6">
+                
+                <aside className="w-full lg:w-64 space-y-6 flex-shrink-0">
+                    {/* <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                    <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Views</h2>
+                    <div className="space-y-1">
+
+                        <button 
+                        onClick={() => setViewFilter('assigned')}
+                        className={`btn btn w-full ${viewFilter === 'assigned' ? 'btn-secondary': 'btn'}`}
+                        >
+                        Assigned to Me
+                        </button>
+                        <button 
+                        onClick={() => setViewFilter('created')}
+                        className={`mt-2 btn w-full ${viewFilter === 'created' ? 'btn-secondary': 'btn'}`}
+                        >
+                        Created by Me
+                        </button>
+                    </div>
+                    </div> */}
+
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                    <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Filters</h2>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="text-xs text-gray-500 mb-1.5 block">Priority</label>
+                            <select onClick={(e:any) => setPriority(e.target.value)} className="input text-sm py-2 bg-black/90 backdrop-blur-3xl ">
+                                <option value={""} >All Priorities</option>
+                                <option value={"High"} >High</option>
+                                <option value={"Medium"} >Medium</option>
+                                <option value={"Low"} >Low</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="text-xs text-gray-500 mb-1.5 block">Status</label>
+                            <select onClick={(e:any) => setStatus(e.target.value)} className="input text-sm py-2  bg-black/90 backdrop-blur-3xl ">
+                                <option value={""} >All Status</option>
+                                <option value={"To Do"} >To Do</option>
+                                <option value={"In Progress"} >In Progress</option>
+                                <option value={"Review"} >Review</option>
+                                <option value={"Completed"} >Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    </div>
+                </aside>
+
+                <main className="flex-1">
+                    <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-medium text-white">
+                        Tasks
+                        <span className="ml-2 text-sm text-gray-500 font-normal">({ taskTodisplay?.length || '0'})</span>
+                    </h2>
+                    
+                    <div className="flex items-center gap-2">
+                        <span className="text-sm text-gray-500">Sort by:</span>
+                        <select onClick={(e:any) => setSortBy(e.target.value)} className="bg-transparent border-none text-sm text-gray-300 focus:ring-0 cursor-pointer hover:text-white font-medium">
+                            <option value={""} className="bg-gray-900">None</option>
+                            <option value={"priority"} className="bg-gray-900">Priority (Highest)</option>
+                            <option value={"date"} className="bg-gray-900">Due Date (Earliest)</option>
+                        </select>
+                    </div>
+                    </div>
+
+                    <div className="space-y-1s">
+                    {getAllTaskQuery.isPending? <div className='w-full flex justify-center items-center' >
+                        <Loader />
+                        </div> : 
+                        <div className="space-y-3">
+                            {taskTodisplay?.length?  taskTodisplay?.map((task:any) => (
+                            <TaskItem 
+                                key={task._id} 
+                                task={task as any}
+                            />
+                            )): "No Tasks"}
+                        </div>
+                    }
+                    </div>
+
+                </main>
+
+                </div>
+            </div>
         </div>
-
-      </div>
-    </div>
-  );
+    );
 }

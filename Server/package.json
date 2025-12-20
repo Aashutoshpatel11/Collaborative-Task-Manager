@@ -16,7 +16,7 @@
   "main": "server.ts",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/server.ts src/sockets/index.ts"
+    "dev": "tsx watch src/server.ts"
   },
   "author": "",
   "license": "ISC",

@@ -49,7 +49,7 @@ function Profile() {
         }
     })
 
-    const changePasswordMutation = useMutation({
+    const changePasswordMutation:any = useMutation({
         mutationFn: changePassword,
         mutationKey: ["Change Password"],
         onSuccess: () => {

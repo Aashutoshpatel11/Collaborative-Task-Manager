@@ -20,6 +20,7 @@ type Inputs = {
     assignedToId: string
 }
 
+
 function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
     const queryClient = useQueryClient()
 
@@ -28,7 +29,7 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
         queryFn: getAllUserNames
     })
 
-    const createTaskMutation = useMutation({   
+    const createTaskMutation:any = useMutation({   
         mutationKey: ['Create Task'],
         mutationFn: createTask,
         onSuccess: () => {
@@ -38,7 +39,7 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
         }
     })
 
-    const updateTaskMutation = useMutation({
+    const updateTaskMutation:any = useMutation({
         mutationKey: ['Update Task'],
         mutationFn: updateTask,
         onSuccess: () => {
@@ -52,10 +53,11 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
         setDisplayAddTaskForm(false)
     }
 
-    const { handleSubmit, register, formState: {errors, isValid} } = useForm<Inputs>(
+    const { handleSubmit, register, formState: {isValid} } = useForm<Inputs>(
         {
             mode:"onChange",
             defaultValues: {
+                _id: existingtask?._id || "",
                 title: existingtask?.title || "",
                 description: existingtask?.description || "",
                 dueDate: existingtask?.dueDate || "",
@@ -68,8 +70,6 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
 
     const onSubmit:SubmitHandler<Inputs> = async(data) => {
         if( existingtask ){
-            console.log("DATA", data)
-            console.log("TASK", existingtask)
             updateTaskMutation.mutate({...data, _id:existingtask._id})
         }else{
             createTaskMutation.mutate(data)
@@ -93,7 +93,7 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
                         {...register("title", {
                             required: true
                         })} 
-                        type="title" 
+                        type="text" 
                         className="input" 
                         placeholder="title" />
                         </div>
@@ -103,8 +103,7 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
                         <textarea 
                         {...register("description", {
                             required: true
-                        })} 
-                        type="description" 
+                        })}
                         className="input h-48 " 
                         placeholder="description" />
                         </div>
@@ -125,10 +124,8 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
                         {...register("priority", {
                             required: true
                         })} 
-                        type="priority" 
-                        className="input" 
-                        placeholder="priority" >
-                            <option className='bg-black' value="">priority</option>
+                        className="input" >
+                            <option className='bg-black' value="">Select Priority</option>
                             <option className='bg-black' value="Low">Low</option>
                             <option className='bg-black' value="Medium">Medium</option>
                             <option className='bg-black' value="High">High</option>
@@ -141,11 +138,9 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
                         <select 
                         {...register("status", {
                             required: true
-                        })} 
-                        type="status" 
-                        className="input" 
-                        placeholder="status" >
-                            <option className='bg-black' value="">status</option>
+                        })}
+                        className="input"  >
+                            <option className='bg-black' value="">Select Status</option>
                             <option className='bg-black' value="To Do">To Do</option>
                             <option className='bg-black' value="In Progress">In Progress</option>
                             <option className='bg-black' value="Review">Review</option>
@@ -158,13 +153,11 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
                         <select 
                         {...register("assignedToId", {
                             required: true
-                        })} 
-                        type="Assign" 
-                        className="input" 
-                        placeholder="Assign" >
-                            <option className='bg-black' value="">user</option>
+                        })}  
+                        className="input" >
+                            <option className='bg-black' value="">Select User</option>
                             {
-                                alluserNamesQuery.isSuccess && alluserNamesQuery.data?.data.map( (user) => (
+                                alluserNamesQuery.isSuccess && alluserNamesQuery.data?.data.map( (user:any) => (
                                     <option key={user._id} className='bg-black' value={user._id}>{user.fullname}</option>
                                 ) )
                             }
@@ -181,6 +174,7 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
                     </form>
 
                     { createTaskMutation.isError && <span className='w-full absolute text-sm font-light text-red-500' >{createTaskMutation.error?.response?.data?.message}</span>}
+                    { updateTaskMutation.isError && <span className='w-full absolute text-sm font-light text-red-500' >{updateTaskMutation.error?.response?.data?.message}</span>}
 
                     </div>
 
