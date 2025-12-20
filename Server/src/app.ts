@@ -21,8 +21,8 @@ app.use( express.urlencoded({extended:true, limit:'100kb'}) )
 app.use( cookieParser())
 
 // ROUTE IMPORTS
-import userRoute from './routes/user.route'
-import taskRoute from './routes/task.route'
+import userRoute from './routes/user.route.js'
+import taskRoute from './routes/task.route.js'
 
 
 app.use( '/api/v1/user', userRoute )
