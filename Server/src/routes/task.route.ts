@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authJwt } from "../middlewares/auth.middleware";
+import { authJwt } from "../middlewares/auth.middleware.js";
 
 const taskRoute = Router()
 
