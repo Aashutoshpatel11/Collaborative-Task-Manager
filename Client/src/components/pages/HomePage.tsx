@@ -5,7 +5,7 @@ import Loader from '../Loader';
 import { getAllTask } from '../../api/user.api';
 
 
-export default function DashboardPage() {
+export default function Home() {
     const [taskTodisplay, setTaskToDisplay] = useState([])
     const [sortBy, setSortBy] = useState("")
     const [priority, setPriority] = useState("")

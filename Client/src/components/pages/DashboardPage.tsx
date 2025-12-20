@@ -5,7 +5,7 @@ import { getAllTask } from '../../api/user.api';
 import Loader from '../Loader';
 import { useAppSelector } from '../../store/hooks';
 
-export default function Home() {
+export default function DashboardPage() {
   const [taskToDisplay, setTaskToDisplay] = useState([])
 
   const user:any = useAppSelector( state => state.auth.userData)
@@ -17,15 +17,27 @@ export default function Home() {
     queryFn: getAllTask
   })
 
+  console.log("TASK TO DISPPLAY:: ", taskToDisplay);
+  console.log("userId:: ", user._id);
+  
+
   useEffect( () => {
     if(isSuccess){
+      // console.log(data.data);
+      setTaskToDisplay(data.data)
       if(viewFilter == "assigned"){
-        setTaskToDisplay( data.data.filter( (task:any) => task.assignedToId._id == user._id ) )
+        setTaskToDisplay( data.data.filter( (task:any) => {
+          console.log(`${task.assignedToId._id} :: ${user._id}`);
+          return task.assignedToId._id == user._id
+        } ) )
       }else{
-        setTaskToDisplay( data.data.filter( (task:any) => task.creatorId._id == user._id ) )
+        setTaskToDisplay( data.data.filter( (task:any) => {
+          console.log(`${task.creatorId._id} :: ${user._id}`);
+          return task.creatorId._id == user._id
+        } ) )
       }
     }
-  }, [viewFilter, isSuccess] )
+  }, [viewFilter, isSuccess, user] )
 
   return (
     <div className="min-h-screen w-full text-gray-100">
@@ -64,12 +76,12 @@ export default function Home() {
           <Loader />
         </div> : 
           <div className="space-y-3">
-            {isSuccess && [...taskToDisplay]?.reverse().map((task:any) => (
+            {taskToDisplay ? taskToDisplay?.reverse().map((task:any) => (
               <TaskItem 
                 key={task._id} 
                 task={task as any}
               />
-            ))}
+            )): "No Tasks"}
           </div>
         }
 
