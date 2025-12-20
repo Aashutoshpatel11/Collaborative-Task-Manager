@@ -1,5 +1,5 @@
 import Loader from './Loader'
-import { useForm } from 'react-hook-form'
+import { useForm } from '../../node_modules/react-hook-form/dist'
 import { useMutation } from '@tanstack/react-query'
 import { loginUser } from '../api/user.api'
 import { useNavigate } from 'react-router-dom'

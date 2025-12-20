@@ -1,9 +1,9 @@
 import Loader from './Loader'
-import { useForm } from 'react-hook-form'
+import { useForm } from '../../node_modules/react-hook-form/dist'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getAllUserNames, updateTask } from '../api/user.api'
 import { createTask } from '../api/user.api'
-import type { SubmitHandler } from "react-hook-form";
+import type { SubmitHandler } from "../../node_modules/react-hook-form/dist";
 
 type AddTaskProps = {
   existingtask?: Inputs | null;
