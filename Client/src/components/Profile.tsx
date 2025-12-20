@@ -44,7 +44,8 @@ function Profile() {
         mutationKey: ["Update User"],
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['Current User']
+                queryKey: ['Current User'],
+                exact: true
             })
         }
     })

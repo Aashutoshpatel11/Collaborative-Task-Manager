@@ -16,9 +16,6 @@ export default function DashboardPage() {
     queryKey: ['AllTasks'],
     queryFn: getAllTask
   })
-
-  console.log("TASK TO DISPPLAY:: ", taskToDisplay);
-  console.log("userId:: ", user._id);
   
 
   useEffect( () => {
@@ -27,17 +24,15 @@ export default function DashboardPage() {
       setTaskToDisplay(data.data)
       if(viewFilter == "assigned"){
         setTaskToDisplay( data.data.filter( (task:any) => {
-          console.log(`${task.assignedToId._id} :: ${user._id}`);
           return task.assignedToId._id == user._id
         } ) )
       }else{
         setTaskToDisplay( data.data.filter( (task:any) => {
-          console.log(`${task.creatorId._id} :: ${user._id}`);
           return task.creatorId._id == user._id
         } ) )
       }
     }
-  }, [viewFilter, isSuccess, user] )
+  }, [viewFilter, isSuccess, user, data] )
 
   return (
     <div className="min-h-screen w-full text-gray-100">
@@ -76,7 +71,7 @@ export default function DashboardPage() {
           <Loader />
         </div> : 
           <div className="space-y-3">
-            {taskToDisplay ? taskToDisplay?.reverse().map((task:any) => (
+            {taskToDisplay ? [...taskToDisplay]?.reverse().map((task:any) => (
               <TaskItem 
                 key={task._id} 
                 task={task as any}

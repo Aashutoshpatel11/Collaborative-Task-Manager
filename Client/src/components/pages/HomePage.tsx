@@ -24,7 +24,7 @@ export default function Home() {
 
     const getAllTaskQuery = useQuery({
         queryKey: ['AllTasks'],
-        queryFn: getAllTask,
+        queryFn: getAllTask
     })
 
     useEffect( () => {
@@ -45,7 +45,7 @@ export default function Home() {
             
         }
             
-    }, [priority, status, getAllTaskQuery.isSuccess] )
+    }, [priority, status, getAllTaskQuery.isSuccess, getAllTaskQuery.data] )
 
 
     useEffect( () => {
@@ -53,11 +53,11 @@ export default function Home() {
             setTaskToDisplay(getAllTaskQuery?.data?.data)
         }else if( sortBy == "priority" ){
             setTaskToDisplay((prev) =>
-                [...prev].sort( (a:any, b:any) => priorityOrder[a.priority] - priorityOrder[b.priority] )
+                [...prev].sort( (a:any, b:any) => priorityOrder[b.priority] - priorityOrder[a.priority] )
             )
         }else if( sortBy == "date" ){
             setTaskToDisplay((prev) =>
-                [...prev].sort( (a:any, b:any) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
+                [...prev].sort( (a:any, b:any) => Date.parse(b.dueDate) - Date.parse(a.dueDate))
             )
         }
     }, [sortBy] )
@@ -144,7 +144,7 @@ export default function Home() {
                         <Loader />
                         </div> : 
                         <div className="space-y-3">
-                            {taskTodisplay?.length?  taskTodisplay?.map((task:any) => (
+                            {taskTodisplay?.length?  [...taskTodisplay].reverse().map((task:any) => (
                             <TaskItem 
                                 key={task._id} 
                                 task={task as any}

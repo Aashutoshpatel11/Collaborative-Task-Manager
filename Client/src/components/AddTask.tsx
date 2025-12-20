@@ -34,7 +34,8 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
         mutationFn: createTask,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['AllTasks']
+                queryKey: ['AllTasks'],
+                exact: true
             })
         }
     })
@@ -44,7 +45,8 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
         mutationFn: updateTask,
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['AllTasks']
+                queryKey: ['AllTasks'],
+                exact: true
             })
         }
     })
@@ -115,7 +117,7 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
                             required: true
                         })} 
                         type="date" 
-                        className="input" />
+                        className="input [&::-webkit-calendar-picker-indicator]:invert" />
                         </div>
 
                         <div>
