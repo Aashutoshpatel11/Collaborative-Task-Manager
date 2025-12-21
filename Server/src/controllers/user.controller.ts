@@ -113,8 +113,8 @@ const login = asyncHandler( async(req:Request, res:Response) => {
     }
     
     return res
-    .cookie("refreshToken",refreshToken, {httpOnly:true, secure: true} )
-    .cookie("accessToken",accessToken, {httpOnly:true, secure: true} )
+    .cookie("refreshToken",refreshToken, {httpOnly:true, secure: true, sameSite: 'none' as const,} )
+    .cookie("accessToken",accessToken, {httpOnly:true, secure: true, sameSite: 'none' as const,} )
     .json(
         new ApiResponse(
             200,
@@ -302,8 +302,8 @@ const getCurrentUser = asyncHandler( async(req:Request, res:Response) => {
         const newAccessToken = currentUser.generateAccessToken()
 
         return res
-        .cookie("accessToken", newAccessToken, {httpOnly: true, secure: true})
-        .cookie("refreshToken", refreshToken, {httpOnly: true, secure: true})
+        .cookie("accessToken", newAccessToken, {httpOnly: true, secure: true, sameSite: 'none' as const,})
+        .cookie("refreshToken", refreshToken, {httpOnly: true, secure: true, sameSite: 'none' as const,})
         .json(
             new ApiResponse(
                 200,
@@ -315,8 +315,8 @@ const getCurrentUser = asyncHandler( async(req:Request, res:Response) => {
     }
 
     return res
-    .cookie("accessToken", accessToken, {httpOnly: true, secure: true})
-    .cookie("refreshToken", refreshToken, {httpOnly: true, secure: true})
+    .cookie("accessToken", accessToken, {httpOnly: true, secure: true, sameSite: 'none' as const,})
+    .cookie("refreshToken", refreshToken, {httpOnly: true, secure: true, sameSite: 'none' as const,})
     .json(
         new ApiResponse(
             200,
