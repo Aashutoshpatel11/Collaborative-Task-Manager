@@ -7,7 +7,8 @@ import cors from 'cors'
 
 const app:any = express()
 
-// console.log("ORIGIN",process.env.CORS_ORIGIN );
+
+app.set("trust proxy", 1);
 
 app.use( cors({
     origin:process.env.CORS_ORIGIN?.trim(),
