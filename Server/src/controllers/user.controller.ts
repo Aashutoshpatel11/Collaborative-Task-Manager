@@ -85,8 +85,8 @@ const login = asyncHandler( async(req:Request, res:Response) => {
         )
     }
 
-    const accessToken = await existingUser.generateAccessToken()
-    const refreshToken = await existingUser.generateRefreshToken()
+    const accessToken = existingUser.generateAccessToken()
+    const refreshToken = existingUser.generateRefreshToken()
 
     // console.log("ACCESS TOKEN :: ", accessToken);
     // console.log("REFRESH TOKEN :: ", refreshToken);
@@ -274,10 +274,10 @@ const getAllUserNames = asyncHandler( async(req:Request, res:Response) => {
 const getCurrentUser = asyncHandler( async(req:Request, res:Response) => {
     const {accessToken, refreshToken} = req.cookies
 
-    const verifiedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET||"") 
+    const verifiedRefreshToken:any = jwt.verify(accessToken, process.env.REFRESH_TOKEN_SECRET||"") 
+    const verifiedAccessToken:any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET||"")
 
-
-    if(!refreshToken){
+    if(!verifiedRefreshToken){
         throw new ApiError(
             401,
             "User not unauthorized"
@@ -285,7 +285,7 @@ const getCurrentUser = asyncHandler( async(req:Request, res:Response) => {
     }
 
 
-    const currentUser = await User.findOne({refreshToken: refreshToken}).select('-refreshToken -password')
+    const currentUser = await User.findById(verifiedRefreshToken?._id).select('-refreshToken -password')
 
     if(!currentUser){
         throw new ApiError(
@@ -294,8 +294,8 @@ const getCurrentUser = asyncHandler( async(req:Request, res:Response) => {
         )
     }
 
-    if(!accessToken){
-        const newAccessToken = await currentUser.generateAccessToken()
+    if(!verifiedAccessToken){
+        const newAccessToken = currentUser.generateAccessToken()
 
         return res
         .cookie("accessToken", newAccessToken, {httpOnly: true, secure: true})
