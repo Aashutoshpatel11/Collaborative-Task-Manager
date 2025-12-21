@@ -274,6 +274,10 @@ const getAllUserNames = asyncHandler( async(req:Request, res:Response) => {
 const getCurrentUser = asyncHandler( async(req:Request, res:Response) => {
     const {accessToken, refreshToken} = req.cookies
 
+    console.log("Access Token", accessToken);
+    console.log("Refresh Token", refreshToken);
+    
+
     const verifiedRefreshToken:any = jwt.verify(accessToken, process.env.REFRESH_TOKEN_SECRET||"") 
     const verifiedAccessToken:any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET||"")
 
