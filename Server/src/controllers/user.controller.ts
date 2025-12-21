@@ -1,11 +1,11 @@
-import {User} from '../models/user.model'
-import {asyncHandler} from '../utils/asyncHandler'
-import {ApiResponse} from '../utils/ApiResponse'
-import {ApiError} from '../utils/ApiError'
-import { passwordSchema, registerSchema } from '../schema/registerSchema'
+import {User} from '../models/user.model.js'
+import {asyncHandler} from '../utils/asyncHandler.js'
+import {ApiResponse} from '../utils/ApiResponse.js'
+import {ApiError} from '../utils/ApiError.js'
+import { passwordSchema, registerSchema } from '../schema/registerSchema.js'
 import {Request, response, Response} from 'express'
 import bcrypt from "bcryptjs"
-import { loginSchema } from '../schema/loginSchema'
+import { loginSchema } from '../schema/loginSchema.js'
 import jwt from 'jsonwebtoken'
 
 const register = asyncHandler( async(req:Request, res:Response) => {

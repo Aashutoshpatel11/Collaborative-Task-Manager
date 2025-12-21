@@ -5,7 +5,7 @@ const taskRoute = Router()
 
 
 // ROUTES
-import { allTask, assignedToMeTask, createdTask, createTask, deleteTask, updateTask } from "../controllers/task.controller";
+import { allTask, assignedToMeTask, createdTask, createTask, deleteTask, updateTask } from "../controllers/task.controller.js";
 
 taskRoute.route('/create').post(authJwt, createTask)
 taskRoute.route('/all-tasks').get( allTask)

@@ -1,11 +1,11 @@
-import { asyncHandler } from "../utils/asyncHandler";
-import { ApiResponse } from "../utils/ApiResponse";
-import { ApiError } from "../utils/ApiError";
-import { User } from "../models/user.model";
-import { Task } from "../models/task.model"
-import { taskSchema } from "../schema/taskSchema";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { ApiError } from "../utils/ApiError.js";
+import { User } from "../models/user.model.js";
+import { Task } from "../models/task.model.js"
+import { taskSchema } from "../schema/taskSchema.js";
 import { Request, Response } from "express";
-import { getIo } from "../socket/socket";
+import { getIo } from "../socket/socket.js";
 
 const createTask = asyncHandler( async(req:Request, res:Response) => {
     

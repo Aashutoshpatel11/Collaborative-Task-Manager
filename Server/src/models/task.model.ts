@@ -1,5 +1,5 @@
 import mongoose, {Schema, Document} from "mongoose";
-import { User } from "./user.model";
+import { User } from "./user.model.js";
 
 export interface Task extends Document{
     title: string,

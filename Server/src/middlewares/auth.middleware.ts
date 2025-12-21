@@ -1,8 +1,8 @@
-import { asyncHandler } from "../utils/asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import { Request, Response, NextFunction  } from "express";
-import { ApiError } from "../utils/ApiError";
+import { ApiError } from "../utils/ApiError.js";
 import jwt from "jsonwebtoken";
-import { User } from "../models/user.model";
+import { User } from "../models/user.model.js";
 
 
 const authJwt = asyncHandler( async(req:Request, resizeBy:Response, next:NextFunction) => {
