@@ -2,6 +2,8 @@
 
 A real-time Collaborative Task Management application built with the **MERN stack** (MongoDB, Express.js, React, Node.js). This application allows users to create, update, and delete tasks in real-time, with updates instantly reflected across all connected clients using **Socket.io**.
 
+### Live URL: https://collab-task-client.onrender.com
+
 ## Setup Instructions
 
 ### Prerequisites
