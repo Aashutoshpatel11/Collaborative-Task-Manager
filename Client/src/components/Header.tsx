@@ -34,7 +34,12 @@ export default function Header() {
   }
 
   useEffect( () => {
-    getCurrentUserMutation.mutate()
+    
+    
+    setTimeout( () => {
+      getCurrentUserMutation.mutate()
+      console.log("GET CURRENT USER");
+    }, 5000 )
   }, [] )
 
   const handleLogout = async() => {
