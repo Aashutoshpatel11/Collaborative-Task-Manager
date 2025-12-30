@@ -13,7 +13,7 @@ e349e5a - Aashutosh Patel, 9 days ago : bug fixes
 3581135 - Aashutosh Patel, 10 days ago : import issue
 7bbd875 - Aashutosh Patel, 10 days ago : import issue
 3c41562 - Aashutosh Patel, 10 days ago : build issue resolve
-ad4df72 - Aashutosh Patel, 10 days ago : added tsconfig
+ad4df72 - Aashutosh Patel, 10 days ago : added tsconfig 
 4d6c5fe - Aashutosh Patel, 10 days ago : minor issues
 6c2acc3 - Aashutosh Patel, 10 days ago : added start and build command
 8a04ea9 - Aashutosh Patel, 10 days ago : name updation

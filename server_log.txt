@@ -5,7 +5,7 @@ $ npm run dev
 > tsx watch src/server.ts
 
 [dotenv@17.2.3] injecting env (8) from .env -- tip: 🔑 add access controls to secrets: https://dotenvx.com/ops
-
-DB Connected :: Hosted At ::  ac-ainbkkj-shard-00-00.gzlod9m.mongodb.net 
+ 
+DB Connected :: Hosted At ::  ac-ainbkkj-shard-00-00.gzlod9m.mongodb.net  
 
 Listening at port ::  4000
