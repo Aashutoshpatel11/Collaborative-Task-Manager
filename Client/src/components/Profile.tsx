@@ -71,7 +71,7 @@ function Profile() {
     })
 
     return (
-        <div className="min-w-full py-10">
+        <div className=" w-full flex flex-col justify-center items-center p-6 md:p-12">
             
             <h2 className="text-xl font-bold mb-4">Profile Details</h2>
             <form

@@ -79,11 +79,11 @@ function AddTask({existingtask=null, setDisplayAddTaskForm}: AddTaskProps) {
     }
 
     return (
-        <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-black/90 backdrop-blur-xl z-30" >
+        <div className="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-black/90 backdrop-blur-2xl z-30" >
             <div className=" w-full h-full overflow-y-scroll bg-transparent z-50 flex justify-center items-center" >
                 <div className="w-full max-w-sm space-y-4 p-6 relative">
                     <div className=" mb-4">
-                        <h2 className="text-2xl font-semibold text-white">Create Task</h2>
+                        <h2 className="text-2xl font-semibold text-white">{existingtask? "Update Task" : "Create Task" }</h2>
                     </div>
 
 
