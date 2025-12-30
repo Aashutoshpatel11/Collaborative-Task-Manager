@@ -10,6 +10,7 @@ export default function Home() {
     const [sortBy, setSortBy] = useState("")
     const [priority, setPriority] = useState("")
     const [status, setStatus] = useState("")
+    const [searchBy, setSearchBy] = useState("")
 
     // const user:any = useAppSelector( state => state.auth.userData )
     // console.log("TASKS::", taskTodisplay);
@@ -27,7 +28,7 @@ export default function Home() {
         queryFn: getAllTask
     })
 
-    useEffect( () => {
+    const psFunc = () => {
         if( getAllTaskQuery.isSuccess ){
             if( priority == "" && status == "" ){
                 setTaskToDisplay(getAllTaskQuery.data.data) 
@@ -44,11 +45,13 @@ export default function Home() {
             }
             
         }
-            
-    }, [priority, status, getAllTaskQuery.isSuccess, getAllTaskQuery.data] )
-
+    }
 
     useEffect( () => {
+        psFunc()
+    }, [priority, status, getAllTaskQuery.isSuccess, getAllTaskQuery.data] )
+
+    const sortByFunc = () => {
         if( sortBy == "" ){
             setTaskToDisplay(getAllTaskQuery?.data?.data)
         }else if( sortBy == "priority" ){
@@ -60,7 +63,22 @@ export default function Home() {
                 [...prev].sort( (a:any, b:any) => Date.parse(b.dueDate) - Date.parse(a.dueDate))
             )
         }
+    } 
+
+    useEffect( () => {
+        sortByFunc()
     }, [sortBy] )
+
+    useEffect( () => {
+        if( searchBy == "" ){
+            psFunc()
+            sortByFunc()
+        }else{
+            setTaskToDisplay( getAllTaskQuery?.data?.data.filter( (task:any) => {
+                return task.title.toLowerCase().includes(searchBy)
+            } ) )
+        }
+    }, [searchBy] )
 
 
     return (
@@ -68,33 +86,21 @@ export default function Home() {
             <div className="max-w-5xl mx-auto space-y-8">
                 
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h1 className="text-3xl font-bold text-white tracking-tight">All Tasks</h1>
-                    <p className="text-gray-400 mt-1">Real-time updates across the team.</p>
-                </div>
+                    <div>
+                        <h1 className="text-3xl font-bold text-white tracking-tight">All Tasks</h1>
+                        <p className="text-gray-400 mt-1">Real-time updates across the team.</p>
+                    </div>
+                    <input
+                    placeholder='search...'
+                    className='input'
+                    value={searchBy}
+                    onChange={ (e:any) => setSearchBy(e.target.value.toLowerCase()) }
+                    type="text" />
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-6">
                 
                 <aside className="w-full lg:w-64 space-y-6 flex-shrink-0">
-                    {/* <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                    <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Views</h2>
-                    <div className="space-y-1">
-
-                        <button 
-                        onClick={() => setViewFilter('assigned')}
-                        className={`btn btn w-full ${viewFilter === 'assigned' ? 'btn-secondary': 'btn'}`}
-                        >
-                        Assigned to Me
-                        </button>
-                        <button 
-                        onClick={() => setViewFilter('created')}
-                        className={`mt-2 btn w-full ${viewFilter === 'created' ? 'btn-secondary': 'btn'}`}
-                        >
-                        Created by Me
-                        </button>
-                    </div>
-                    </div> */}
 
                     <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
                     <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Filters</h2>

@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "97ba6df8-93a6-460f-a21d-c1ab6d0d39ab",
+		"name": "Collaborative Task Manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "48017274",
+		"_collection_link": "https://aashupatel369727-794865.postman.co/workspace/Aashutosh-Patel's-Workspace~c2309000-934a-49cc-819d-f6d0b82d7ce7/collection/48017274-97ba6df8-93a6-460f-a21d-c1ab6d0d39ab?action=share&source=collection_link&creator=48017274"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullname\": \"one\",\r\n    \"email\": \"one@gmail.com\",\r\n    \"password\": \"One@1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/user/register"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"one@gmail.com\",\r\n    \"password\": \"One@1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/user/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Details",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullname\": \"one\",\r\n    \"email\": \"one@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/user/update-details"
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"One@1234\",\r\n    \"newPassword\": \"One@123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/user/change-password"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/user/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users Name",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/user/get-all-users-name"
+					},
+					"response": []
+				},
+				{
+					"name": "Current User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/user/current-user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"two\",\r\n    \"description\": \"two\",\r\n    \"dueDate\": \"2025-12-18\",\r\n    \"priority\": \"Low\",\r\n    \"status\": \"Review\",\r\n    \"creatorId\": \"694151ba01e1e3fed08ae5a5\",\r\n    \"assignedToId\": \"694151ba01e1e3fed08ae5a5\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/task/create"
+					},
+					"response": []
+				},
+				{
+					"name": "AllTask",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/task/all-tasks"
+					},
+					"response": []
+				},
+				{
+					"name": "Created Task",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/task/created-tasks"
+					},
+					"response": []
+				},
+				{
+					"name": "Assigned To Me Task",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/task/assigned-tasks"
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"two\",\r\n    \"description\": \"two\",\r\n    \"dueDate\": \"2025-12-18\",\r\n    \"priority\": \"Low\",\r\n    \"status\": \"Review\",\r\n    \"assignedToId\": \"694151ba01e1e3fed08ae5a5\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/task/update/6942671b92c012e6241ee7a8"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "https://collab-task-k9ph.onrender.com/api/v1/task/delete/6942671b92c012e6241ee7a8"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
