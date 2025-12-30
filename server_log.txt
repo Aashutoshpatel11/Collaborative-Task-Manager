@@ -1,0 +1,11 @@
+Aashutosh Patel@LAPTOP-OTJ67BNE MINGW64 /d/Programming/Collaborative Task Manager/Server (main)
+$ npm run dev
+
+> backend@1.0.0 dev
+> tsx watch src/server.ts
+
+[dotenv@17.2.3] injecting env (8) from .env -- tip: 🔑 add access controls to secrets: https://dotenvx.com/ops
+
+DB Connected :: Hosted At ::  ac-ainbkkj-shard-00-00.gzlod9m.mongodb.net 
+
+Listening at port ::  4000

@@ -1,0 +1,38 @@
+5ba2f42 - Aashutosh Patel, 21 minutes ago : Enhance AddTask component to dynamically display task creation or update title and improve Profile component layout
+d7b1ed5 - Aashutosh Patel, 31 minutes ago : Refactor Profile component and add search functionality to HomePage
+5b440ac - Aashutosh Patel, 9 days ago : /register route fix
+e8239c7 - Aashutosh patel, 9 days ago : Update README.md
+03b8761 - Aashutosh Patel, 9 days ago : Cookies access issue resolved
+4f550a7 - Aashutosh Patel, 9 days ago : cookies access issue resolved
+eabb25d - Aashutosh Patel, 9 days ago : bug fix trial
+0979ce9 - Aashutosh Patel, 9 days ago : deloyed site error 500 fix
+e349e5a - Aashutosh Patel, 9 days ago : bug fixes
+37c6ce9 - Aashutosh Patel, 9 days ago : Fix SPA routing for Render
+3f9ef8f - Aashutosh Patel, 9 days ago : import bug fix for build
+30e1ca9 - Aashutosh Patel, 9 days ago : import bugs fix
+3581135 - Aashutosh Patel, 10 days ago : import issue
+7bbd875 - Aashutosh Patel, 10 days ago : import issue
+3c41562 - Aashutosh Patel, 10 days ago : build issue resolve
+ad4df72 - Aashutosh Patel, 10 days ago : added tsconfig
+4d6c5fe - Aashutosh Patel, 10 days ago : minor issues
+6c2acc3 - Aashutosh Patel, 10 days ago : added start and build command
+8a04ea9 - Aashutosh Patel, 10 days ago : name updation
+fb3f884 - Aashutosh Patel, 10 days ago : minor issues resolved
+4b27c5d - Aashutosh Patel, 10 days ago : added sample .env files
+0131c72 - Aashutosh Patel, 10 days ago : Remove env files from repo
+4d4966a - Aashutosh Patel, 10 days ago : env config error resolved
+f4b9bd9 - Aashutosh patel, 10 days ago : Update README.md
+dcf05c1 - Aashutosh Patel, 10 days ago : feat. view by Assigned and created Task
+d90107e - Aashutosh Patel, 10 days ago : containerized client and server using docker
+df901cc - Aashutosh Patel, 11 days ago : Added Socket.IO :realtime notification using react hot toast to all user and user to whom task is assigned
+6da1c77 - Aashutosh Patel, 11 days ago : Added user profile  page with details update and change password functionality
+7189220 - Aashutosh Patel, 12 days ago : task filter and sorting functionalities added
+d98e1fc - Aashutosh Patel, 12 days ago : added user dashboard, home page task creation and task update features
+72d79a0 - Aashutosh Patel, 12 days ago : Login and Register Page are now live
+4824687 - Aashutosh Patel, 13 days ago : react app initialization with redux setup
+8ef9741 - Aashutosh Patel, 13 days ago : Task routes checked using postman
+3e45951 - Aashutosh Patel, 2 weeks ago : added task create, read, update, delete routes
+6484efb - Aashutosh Patel, 2 weeks ago : added login, logout, change-password and update-details user routes and auth middleware is added
+d845f2d - Aashutosh Patel, 2 weeks ago : route and server testing
+7d07edd - Aashutosh Patel, 2 weeks ago : added: user model, task model, zod schemas, express setup with middlewares
+47b1b87 - Aashutosh Patel, 2 weeks ago : first commit
