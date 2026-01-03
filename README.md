@@ -4,6 +4,8 @@ A real-time Collaborative Task Management application built with the **MERN stac
 
 ### Live URL: https://collab-task-client.onrender.com
 
+### Github Repo: https://github.com/Aashutoshpatel11/Collaborative-Task-Manager
+
 ## Setup Instructions
 
 ### Prerequisites
