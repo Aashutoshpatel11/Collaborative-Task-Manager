@@ -15,6 +15,9 @@ export default function Home() {
     // const user:any = useAppSelector( state => state.auth.userData )
     // console.log("TASKS::", taskTodisplay);
     
+    useEffect( ()  => {
+        alert("Render Server may take some time to spin up. Please wait!")
+    }, [])
 
     const priorityOrder:any = {
         Urgent: 1,
